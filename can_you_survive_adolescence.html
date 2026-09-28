@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAN YOU SURVIVE ADOLESCENCE? 🎮 Retro Arcade Edition</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Retro Arcade Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;800&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0b0c16;
+            --neon-cyan: #00f6ff;
+            --neon-pink: #ff2a6d;
+            --neon-purple: #bd00ff;
+            --neon-yellow: #ffe600;
+            --team-red: #ff4757;
+            --team-blue: #2e86de;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Lexend', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-pixel {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .font-vt {
+            font-family: 'VT323', monospace;
+        }
+
+        /* CRT Arcade Effect Overlay */
+        .crt-container {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .crt-overlay {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 50;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        /* Neon Glow Effects */
+        .glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.4), inset 0 0 10px rgba(0, 246, 255, 0.2);
+            border-color: var(--neon-cyan);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 246, 255, 0.8);
+        }
+        .glow-pink {
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.4), inset 0 0 10px rgba(255, 42, 109, 0.2);
+            border-color: var(--neon-pink);
+        }
+        .text-glow-pink {
+            text-shadow: 0 0 10px rgba(255, 42, 109, 0.8);
+        }
+        .glow-red {
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+            border-color: var(--team-red);
+        }
+        .glow-blue {
+            box-shadow: 0 0 15px rgba(46, 134, 222, 0.5);
+            border-color: var(--team-blue);
+        }
+        .glow-yellow {
+            box-shadow: 0 0 15px rgba(255, 230, 0, 0.4);
+            border-color: var(--neon-yellow);
+        }
+
+        /* Arcade Screen Flicker Animation */
+        @keyframes subtle-flicker {
+            0% { opacity: 0.98; }
+            50% { opacity: 1; }
+            100% { opacity: 0.97; }
+        }
+        .arcade-screen {
+            animation: subtle-flicker 0.15s infinite;
+        }
+
+        /* Arcade Card Hover Effects */
+        .choice-btn {
+            transition: all 0.2s ease;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #334155;
+        }
+        .choice-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.3);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        /* Stat Progress Bar Transitions */
+        .stat-bar {
+            transition: width 0.5s ease-in-out, background-color 0.3s;
+        }
+
+        /* Animated Pulsing Banner */
+        .pulse-banner {
+            animation: banner-pulse 1.5s infinite alternate;
+        }
+        @keyframes banner-pulse {
+            0% { transform: scale(0.99); opacity: 0.9; }
+            100% { transform: scale(1.01); opacity: 1; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0c16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body class="bg-[#0b0c16] text-slate-100 flex flex-col min-h-screen crt-container selection:bg-cyan-500 selection:text-black">
+    <!-- CRT Effect Scanlines Overlay -->
+    <div class="crt-overlay"></div>
+
+    <!-- Top Audio & Navigation Header -->
+    <header class="sticky top-0 z-40 bg-[#080911]/90 backdrop-blur-md border-b border-cyan-500/30 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <!-- Game Title & Status -->
+            <div class="flex items-center gap-3">
+                <span class="text-2xl animate-bounce">🎮</span>
+                <div>
+                    <h1 class="font-pixel text-xs sm:text-sm md:text-base text-cyan-400 text-glow-cyan tracking-wider">
+                        CAN YOU SURVIVE ADOLESCENCE?
+                    </h1>
+                    <p class="text-xs text-slate-400 font-vt tracking-widest uppercase">Turn-Based Arcade Simulation</p>
+                </div>
+            </div>
+
+            <!-- Audio Controller Bar -->
+            <div class="flex items-center gap-4 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-700/60 text-xs font-mono">
+                <!-- Synthesizer BGM Toggle -->
+                <button id="bgmToggleBtn" onclick="toggleBGM()" class="flex items-center gap-2 px-3 py-1 rounded bg-slate-800 hover:bg-cyan-950 border border-slate-600 hover:border-cyan-400 text-slate-300 hover:text-cyan-300 transition">
+                    <span id="bgmIcon">🎵</span>
+                    <span id="bgmText">BGM: OFF</span>
+                </button>
+
+                <!-- Mute Sound Effects -->
+                <button id="muteBtn" onclick="toggleMute()" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600" title="Toggle Sound FX">
+                    <span id="muteIcon">🔊</span>
+                </button>
+
+                <!-- Volume Slider -->
+                <div class="hidden sm:flex items-center gap-2">
+                    <span class="text-slate-400">VOL</span>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50" oninput="updateVolume(this.value)" class="w-16 accent-cyan-400 cursor-pointer h-1.5 bg-slate-700 rounded-lg">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Scoreboard: Dynamic Side-by-Side Teams Stats -->
+    <section id="scoreboardSection" class="bg-slate-950/80 border-b border-slate-800 py-3 px-4 hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- TEAM RED CARD (IMPULSIVE) -->
+            <div id="cardTeamRed" class="p-3 sm:p-4 rounded-xl border-2 border-red-500/40 bg-slate-900/80 relative transition-all duration-300">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">🔴</span>
+                        <h2 class="font-pixel text-xs sm:text-sm text-red-400 tracking-wide">TEAM RED (IMPULSIVE)</h2>
+                    </div>
+                    <span id="badgeTurnRed" class="text-[10px] font-pixel px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-500 animate-pulse hidden">ACTIVE TURN</span>
+                </div>
+
+                <!-- Red Stats Grid -->
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                    <!-- Mental Health -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">🧠 Mental Health</span>
+                            <span id="redStatMH" class="font-bold text-cyan-300">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="redBarMH" class="stat-bar bg-cyan-400 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Relationships -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">👥 Relationships</span>
+                            <span id="redStatREL" class="font-bold text-pink-400">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="redBarREL" class="stat-bar bg-pink-500 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Independence -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">🕊️ Independence</span>
+                            <span id="redStatIND" class="font-bold text-purple-400">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="redBarIND" class="stat-bar bg-purple-500 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stress -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">⚡ Stress</span>
+                            <span id="redStatSTR" class="font-bold text-yellow-400">30</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="redBarSTR" class="stat-bar bg-yellow-400 h-full" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEAM BLUE CARD (RATIONAL) -->
+            <div id="cardTeamBlue" class="p-3 sm:p-4 rounded-xl border-2 border-blue-500/40 bg-slate-900/80 relative transition-all duration-300">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">🔵</span>
+                        <h2 class="font-pixel text-xs sm:text-sm text-blue-400 tracking-wide">TEAM BLUE (RATIONAL)</h2>
+                    </div>
+                    <span id="badgeTurnBlue" class="text-[10px] font-pixel px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-500 animate-pulse hidden">ACTIVE TURN</span>
+                </div>
+
+                <!-- Blue Stats Grid -->
+                <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                    <!-- Mental Health -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">🧠 Mental Health</span>
+                            <span id="blueStatMH" class="font-bold text-cyan-300">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="blueBarMH" class="stat-bar bg-cyan-400 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Relationships -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">👥 Relationships</span>
+                            <span id="blueStatREL" class="font-bold text-pink-400">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="blueBarREL" class="stat-bar bg-pink-500 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Independence -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">🕊️ Independence</span>
+                            <span id="blueStatIND" class="font-bold text-purple-400">50</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="blueBarIND" class="stat-bar bg-purple-500 h-full" style="width: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stress -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-300">⚡ Stress</span>
+                            <span id="blueStatSTR" class="font-bold text-yellow-400">30</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                            <div id="blueBarSTR" class="stat-bar bg-yellow-400 h-full" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Main Interactive Viewport Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-8">
+        <div class="w-full max-w-4xl mx-auto">
+            
+            <!-- VIEW 1: WELCOME / INTRO SCREEN -->
+            <div id="welcomeScreen" class="bg-slate-900/90 border-2 border-cyan-500/50 rounded-2xl p-6 md:p-10 text-center shadow-2xl relative overflow-hidden backdrop-blur-md">
+                <div class="absolute -top-24 -right-24 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-60 h-60 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="inline-block px-4 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 text-xs font-pixel mb-6 tracking-widest">
+                    PSYCHOLOGY ARCADE SIMULATOR
+                </div>
+
+                <h1 class="font-pixel text-2xl sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300 mb-6 leading-relaxed">
+                    CAN YOU SURVIVE ADOLESCENCE?
+                </h1>
+
+                <p class="text-slate-300 text-base sm:text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Step into the turbulent age span from <span class="text-cyan-400 font-semibold">Age 12 to 18</span>. Guide two competing strategies—<span class="text-red-400 font-bold">🔴 Team Red (Impulsive)</span> and <span class="text-blue-400 font-bold">🔵 Team Blue (Rational)</span>—through real-world teenage dilemmas!
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8 text-xs font-mono">
+                    <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                        <div class="text-xl mb-1">🧠</div>
+                        <div class="text-slate-300 font-bold">Mental Health</div>
+                        <div class="text-[10px] text-slate-400">Emotional balance</div>
+                    </div>
+                    <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                        <div class="text-xl mb-1">👥</div>
+                        <div class="text-slate-300 font-bold">Relationships</div>
+                        <div class="text-[10px] text-slate-400">Family & friends</div>
+                    </div>
+                    <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                        <div class="text-xl mb-1">🕊️</div>
+                        <div class="text-slate-300 font-bold">Independence</div>
+                        <div class="text-[10px] text-slate-400">Autonomy seeking</div>
+                    </div>
+                    <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                        <div class="text-xl mb-1">⚡</div>
+                        <div class="text-slate-300 font-bold">Stress Level</div>
+                        <div class="text-[10px] text-slate-400">Keep low!</div>
+                    </div>
+                </div>
+
+                <button onclick="startGame()" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-pixel text-sm sm:text-base rounded-xl transition duration-300 transform hover:scale-105 shadow-lg glow-cyan border-2 border-cyan-300">
+                    PRESS START TO PLAY 🎮
+                </button>
+            </div>
+
+            <!-- VIEW 2: GAME TURN PLAY SCREEN -->
+            <div id="gameplayScreen" class="hidden flex-col gap-6">
+                <!-- Turn Banner -->
+                <div id="turnBanner" class="pulse-banner rounded-xl p-4 text-center border-2 transition-all duration-300">
+                    <div class="flex items-center justify-center gap-3">
+                        <span id="turnEmoji" class="text-2xl">🔴</span>
+                        <h2 id="turnText" class="font-pixel text-sm sm:text-lg tracking-wider">
+                            TEAM RED'S TURN
+                        </h2>
+                    </div>
+                    <p id="turnSubtext" class="text-xs font-mono mt-1 opacity-90">Make your choice carefully!</p>
+                </div>
+
+                <!-- Scenario Card -->
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl relative">
+                    <div class="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                        <span id="ageTag" class="px-3 py-1 bg-purple-950 text-purple-300 border border-purple-500 rounded-full font-pixel text-xs">
+                            AGE 12
+                        </span>
+                        <span id="levelTitle" class="font-pixel text-xs text-cyan-400 text-glow-cyan">
+                            LEVEL 1: "AM I NORMAL?"
+                        </span>
+                    </div>
+
+                    <h3 id="scenarioDescription" class="text-slate-200 text-base sm:text-lg font-medium leading-relaxed mb-6">
+                        You notice rapid body changes during puberty and wonder if everyone goes through this. What do you do?
+                    </h3>
+
+                    <!-- 4 Options Grid -->
+                    <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Options injected dynamically by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: SIDE-BY-SIDE CONSEQUENCE FEEDBACK SCREEN -->
+            <div id="consequenceScreen" class="hidden flex-col gap-6">
+                <div class="text-center mb-2">
+                    <span class="font-pixel text-xs text-yellow-400 tracking-widest uppercase">AGE COMPLETE • CONSEQUENCE ANALYSIS</span>
+                    <h2 id="consequenceAgeTitle" class="font-pixel text-xl text-cyan-300 mt-1">AGE 12 RESULTS</h2>
+                </div>
+
+                <!-- Side-by-Side Comparison Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Red Team Feedback -->
+                    <div class="bg-slate-900/90 border-2 border-red-500/60 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-red-500/30">
+                                <span class="text-xl">🔴</span>
+                                <h3 class="font-pixel text-xs text-red-400">TEAM RED CHOICE</h3>
+                            </div>
+                            <div id="redChoiceText" class="font-bold text-slate-100 mb-2">
+                                Option A: Search everything online 🔎
+                            </div>
+                            <p id="redFeedbackText" class="text-xs text-slate-300 leading-relaxed mb-4">
+                                Endless online rabbit holes and forums cause anxiety and misinformation!
+                            </p>
+                        </div>
+                        <div id="redDeltasContainer" class="flex flex-wrap gap-2 pt-3 border-t border-slate-800">
+                            <!-- Delta tags injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Blue Team Feedback -->
+                    <div class="bg-slate-900/90 border-2 border-blue-500/60 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-blue-500/30">
+                                <span class="text-xl">🔵</span>
+                                <h3 class="font-pixel text-xs text-blue-400">TEAM BLUE CHOICE</h3>
+                            </div>
+                            <div id="blueChoiceText" class="font-bold text-slate-100 mb-2">
+                                Option B: Ask a trusted adult 👨‍👩‍👦
+                            </div>
+                            <p id="blueFeedbackText" class="text-xs text-slate-300 leading-relaxed mb-4">
+                                Reassuring, accurate guidance gives comfort and builds trust, though feels slightly dependent.
+                            </p>
+                        </div>
+                        <div id="blueDeltasContainer" class="flex flex-wrap gap-2 pt-3 border-t border-slate-800">
+                            <!-- Delta tags injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Knowledge Takeaway Box -->
+                <div class="bg-gradient-to-r from-purple-950/80 via-slate-900/90 to-purple-950/80 border-2 border-purple-500/50 rounded-2xl p-5 glow-purple">
+                    <div class="flex items-center gap-2 text-purple-300 font-pixel text-xs mb-2">
+                        <span>📚</span>
+                        <span>KNOWLEDGE TAKEAWAY</span>
+                    </div>
+                    <p id="knowledgeTakeawayText" class="text-slate-200 text-sm leading-relaxed font-mono">
+                        "Puberty occurs at different rates for everyone due to individual biological timing."
+                    </p>
+                </div>
+
+                <!-- Next Age Button -->
+                <button onclick="nextAge()" class="w-full py-4 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-pixel text-sm rounded-xl transition duration-300 transform hover:scale-[1.02] shadow-lg glow-yellow">
+                    CONTINUE TO NEXT AGE ➔
+                </button>
+            </div>
+
+            <!-- VIEW 4: ENDING SLIDE 1 (YOU MADE IT TO 18! & TEAM ENDINGS) -->
+            <div id="endingSlide1" class="hidden flex-col gap-6">
+                <div class="text-center">
+                    <span class="font-pixel text-xs text-cyan-400 tracking-widest uppercase">GRADUATION COMPLETE 🎓</span>
+                    <h2 class="font-pixel text-2xl sm:text-3xl text-yellow-300 mt-2">YOU MADE IT TO 18!</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-1">Final evaluation of both strategies during adolescence</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Red Team End Summary -->
+                    <div class="bg-slate-900/90 border-2 border-red-500/60 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4 pb-2 border-b border-red-500/30">
+                                <span class="font-pixel text-xs text-red-400">🔴 TEAM RED</span>
+                                <span id="redPersonalityBadge" class="px-2.5 py-1 bg-red-950 border border-red-400 text-red-300 rounded font-pixel text-[10px]">
+                                    🔥 THE CHAOTIC ONE
+                                </span>
+                            </div>
+
+                            <div class="space-y-2 mb-6 font-mono text-xs">
+                                <div class="flex justify-between"><span>🧠 Mental Health:</span><span id="redFinalMH" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>👥 Relationships:</span><span id="redFinalREL" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>🕊️ Independence:</span><span id="redFinalIND" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>⚡ Stress:</span><span id="redFinalSTR" class="font-bold">30</span></div>
+                            </div>
+
+                            <p id="redPersonalityDesc" class="text-xs text-slate-300 leading-relaxed italic bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                High impulsivity created intense highs and thrilling independence, but led to emotional turbulence and high stress.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Blue Team End Summary -->
+                    <div class="bg-slate-900/90 border-2 border-blue-500/60 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4 pb-2 border-b border-blue-500/30">
+                                <span class="font-pixel text-xs text-blue-400">🔵 TEAM BLUE</span>
+                                <span id="bluePersonalityBadge" class="px-2.5 py-1 bg-blue-950 border border-blue-400 text-blue-300 rounded font-pixel text-[10px]">
+                                    🌟 THE BALANCED ONE
+                                </span>
+                            </div>
+
+                            <div class="space-y-2 mb-6 font-mono text-xs">
+                                <div class="flex justify-between"><span>🧠 Mental Health:</span><span id="blueFinalMH" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>👥 Relationships:</span><span id="blueFinalREL" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>🕊️ Independence:</span><span id="blueFinalIND" class="font-bold">50</span></div>
+                                <div class="flex justify-between"><span>⚡ Stress:</span><span id="blueFinalSTR" class="font-bold">30</span></div>
+                            </div>
+
+                            <p id="bluePersonalityDesc" class="text-xs text-slate-300 leading-relaxed italic bg-slate-950 p-3 rounded-lg border border-slate-800">
+                                Measured, rational decisions built strong relationships and low stress, providing a steady foundation for adulthood.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="showSlide2()" class="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-pixel text-sm rounded-xl transition duration-300 shadow-lg glow-pink">
+                    VIEW PSYCHOLOGICAL DEBRIEF 🧠 ➔
+                </button>
+            </div>
+
+            <!-- VIEW 5: ENDING SLIDE 2 (PSYCHOLOGICAL KNOWLEDGE DEBRIEF) -->
+            <div id="endingSlide2" class="hidden flex-col gap-6">
+                <div class="text-center">
+                    <span class="font-pixel text-xs text-purple-400 tracking-widest uppercase">ACADEMIC SUMMARY</span>
+                    <h2 class="font-pixel text-xl sm:text-2xl text-cyan-300 mt-1">THE 4 PILLARS OF ADOLESCENCE</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Physical -->
+                    <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 font-pixel text-xs text-yellow-400 mb-2">
+                            <span>🧬</span> PHYSICAL DEVELOPMENT
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Puberty and neural rewiring happen at varying individual biological paces. Sleep patterns shift and prefrontal cortex development continues until mid-20s.
+                        </p>
+                    </div>
+
+                    <!-- Cognitive -->
+                    <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 font-pixel text-xs text-cyan-400 mb-2">
+                            <span>🧠</span> COGNITIVE DEVELOPMENT
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Abstract thinking, metacognition, and risk evaluation evolve. Impulse control develops gradually alongside emotional regulation skills.
+                        </p>
+                    </div>
+
+                    <!-- Emotional -->
+                    <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 font-pixel text-xs text-pink-400 mb-2">
+                            <span>❤️</span> EMOTIONAL DEVELOPMENT
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Identity formation, coping mechanisms for rejection, and learning self-compassion are pivotal for long-term psychological resilience.
+                        </p>
+                    </div>
+
+                    <!-- Social -->
+                    <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 font-pixel text-xs text-purple-400 mb-2">
+                            <span>👥</span> SOCIAL DEVELOPMENT
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Peers become central to belonging and social status. Seeking autonomy from parents requires healthy negotiation rather than total conflict.
+                        </p>
+                    </div>
+                </div>
+
+                <button onclick="showSlide3()" class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-pixel text-sm rounded-xl transition duration-300 shadow-lg glow-cyan">
+                    FINAL MEMORY OUTRO 💀 ➔
+                </button>
+            </div>
+
+            <!-- VIEW 6: ENDING SLIDE 3 (GAME OVER OUTRO QUOTE) -->
+            <div id="endingSlide3" class="hidden flex-col items-center justify-center text-center bg-slate-900/90 border-2 border-pink-500/50 rounded-2xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <div class="text-5xl mb-6 animate-pulse">💀</div>
+
+                <blockquote class="font-pixel text-sm sm:text-lg text-pink-400 text-glow-pink max-w-2xl leading-loose mb-8">
+                    "12 years old: I just want to grow up. <br><br>
+                    18 years old: Wait... can I go back?"
+                </blockquote>
+
+                <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto mb-8 font-mono">
+                    Adolescence is unpredictable, chaotic, and beautiful. Every choice shapes who you become!
+                </p>
+
+                <button onclick="resetGame()" class="px-8 py-4 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-pixel text-sm rounded-xl transition duration-300 transform hover:scale-105 shadow-lg glow-yellow border border-yellow-200">
+                    PLAY AGAIN 🔄
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Audio System and Core Game Logic -->
+    <script>
+        /* ------------------------------------------------------------------
+           1. AUDIO SYSTEM (WEB AUDIO API 8-BIT SYNTHESIZER & SOUND FX)
+           ------------------------------------------------------------------ */
+        let audioCtx = null;
+        let isMuted = false;
+        let isBgmPlaying = false;
+        let bgmInterval = null;
+        let masterGain = null;
+        let volumeLevel = 0.5;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+                masterGain = audioCtx.createGain();
+                masterGain.gain.value = volumeLevel;
+                masterGain.connect(audioCtx.destination);
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function updateVolume(val) {
+            volumeLevel = val / 100;
+            if (masterGain) {
+                masterGain.gain.value = isMuted ? 0 : volumeLevel;
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('muteIcon').innerText = isMuted ? '🔇' : '🔊';
+            if (masterGain) {
+                masterGain.gain.value = isMuted ? 0 : volumeLevel;
+            }
+        }
+
+        function playSoundFx(type) {
+            if (isMuted) return;
+            initAudio();
+
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(masterGain);
+
+            if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'turn') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.08);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.16);
+                osc.start(now);
+                osc.stop(now + 0.16);
+            } else if (type === 'good') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.08);
+                osc.frequency.setValueAtTime(783.99, now + 0.16);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
+                osc.start(now);
+                osc.stop(now + 0.28);
+            } else if (type === 'bad') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+        }
+
+        // Retro Arcade Polyphonic 8-Bit Loop Synthesizer
+        const bgmNotes = [
+            261.63, 329.63, 392.00, 523.25, 392.00, 329.63,
+            293.66, 349.23, 440.00, 587.33, 440.00, 349.23,
+            246.94, 311.13, 369.99, 493.88, 369.99, 311.13,
+            220.00, 261.63, 329.63, 440.00, 329.63, 261.63
+        ];
+        let noteStep = 0;
+
+        function toggleBGM() {
+            initAudio();
+            isBgmPlaying = !isBgmPlaying;
+
+            const btnText = document.getElementById('bgmText');
+            const btnIcon = document.getElementById('bgmIcon');
+
+            if (isBgmPlaying) {
+                btnText.innerText = 'BGM: ON';
+                btnIcon.innerText = '🎶';
+                bgmInterval = setInterval(() => {
+                    if (isMuted || !isBgmPlaying) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(bgmNotes[noteStep], now);
+
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.005, now + 0.18);
+
+                    osc.connect(gain);
+                    gain.connect(masterGain);
+
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+
+                    noteStep = (noteStep + 1) % bgmNotes.length;
+                }, 200);
+            } else {
+                btnText.innerText = 'BGM: OFF';
+                btnIcon.innerText = '🎵';
+                if (bgmInterval) clearInterval(bgmInterval);
+            }
+        }
+
+        /* ------------------------------------------------------------------
+           STREAMING_CHUNK:Defining Game Data and 100% English Content Levels...
+           2. GAME DATA & SCENARIO LEVELS (AGES 12 - 17)
+           ------------------------------------------------------------------ */
+        const ageLevels = [
+            {
+                age: 12,
+                levelTitle: 'LEVEL 1: "AM I NORMAL?"',
+                description: 'You notice rapid body changes during puberty and wonder if everyone goes through this. What do you do?',
+                knowledge: 'Puberty occurs at different rates for everyone due to individual biological timing.',
+                options: [
+                    { id: 'A', text: 'Search everything online 🔎', deltas: { mh: -10, str: 20, ind: 5, rel: -5 }, feedback: 'Endless online rabbit holes and forums cause anxiety and misinformation!' },
+                    { id: 'B', text: 'Ask a trusted adult 👨‍👩‍👦', deltas: { mh: 15, rel: 15, ind: -10, str: -10 }, feedback: 'Reassuring, accurate guidance gives comfort and builds trust, though feels slightly dependent.' },
+                    { id: 'C', text: 'Talk to your friends 🗣️', deltas: { mh: 10, rel: 20, ind: -5, str: -5 }, feedback: 'Sharing experiences makes you feel less alone, though information might not always be accurate.' },
+                    { id: 'D', text: 'Pretend you don\'t care 😎', deltas: { mh: -10, ind: 15, rel: -10, str: 10 }, feedback: 'Suppressing feelings creates underlying anxiety while isolating you from support.' }
+                ]
+            },
+            {
+                age: 13,
+                levelTitle: 'LEVEL 2: "JUST DO IT!"',
+                description: 'Your peer group pressure you to sneak out at midnight to meet at the park. What is your choice?',
+                knowledge: 'Peer pressure heavily influences adolescent decision-making as social belonging becomes paramount.',
+                options: [
+                    { id: 'A', text: 'Sneak out with them 😈', deltas: { ind: 25, mh: 10, rel: -15, str: 15 }, feedback: 'Exhilarating thrill! But parent friction and safety risks jump through the roof.' },
+                    { id: 'B', text: 'Refuse and stay home 🏠', deltas: { rel: 10, mh: 5, ind: -10, str: -10 }, feedback: 'Safe and sensible decision that keeps parents happy, but you feel slightly left out.' },
+                    { id: 'C', text: 'Tell them you\'re uncomfortable 🚶', deltas: { mh: 15, ind: 15, rel: -10, str: 0 }, feedback: 'Strong personal boundaries! Some friends tease you, but self-respect skyrockets.' },
+                    { id: 'D', text: 'Lie to your parents and go 💀', deltas: { ind: 30, rel: -25, mh: -5, str: 25 }, feedback: 'High risk! Huge trust loss with family if caught, with massive lingering stress.' }
+                ]
+            },
+            {
+                age: 14,
+                levelTitle: 'LEVEL 3: "THE MIRROR"',
+                description: 'Scrolls on social media show peers with "perfect" body shapes and lifestyle. You feel insecure.',
+                knowledge: 'Adolescents often become more aware of their appearance and how others see them.',
+                options: [
+                    { id: 'A', text: 'Keep scrolling 📱', deltas: { mh: -20, str: 20, ind: 0, rel: 0 }, feedback: 'Doomscrolling idealised photos fuels insecurity and mental fatigue.' },
+                    { id: 'B', text: 'Delete every social media app 🔥', deltas: { mh: 15, str: -20, rel: -10, ind: 10 }, feedback: 'Digital detox brings instant mental peace and clarity, though short-term FOMO occurs.' },
+                    { id: 'C', text: 'Talk to someone you trust ❤️', deltas: { mh: 20, rel: 15, str: -10, ind: 0 }, feedback: 'Opening up reassures you that social media filters are far from real life.' },
+                    { id: 'D', text: 'Try to change yourself to look like them 🪞', deltas: { ind: 5, mh: -15, str: 15, rel: 5 }, feedback: 'Chasing unrealistic standards exhausts you and damages self-esteem.' }
+                ]
+            },
+            {
+                age: 15,
+                levelTitle: 'LEVEL 4: "FIRST CRUSH"',
+                description: 'You get rejected by your first major crush in front of school acquaintances. How do you handle it?',
+                knowledge: 'Adolescence involves major emotional and social changes; managing rejection builds resilience.',
+                options: [
+                    { id: 'A', text: 'Pretend you don\'t care 😐', deltas: { mh: -10, ind: 10, str: 15, rel: -5 }, feedback: 'Putting up emotional walls protects your pride, but internal turmoil stays high.' },
+                    { id: 'B', text: 'Talk to your best friend 🗣️', deltas: { mh: 20, rel: 20, str: -15, ind: 0 }, feedback: 'Venting to a close friend provides emotional release and strengthens your bond.' },
+                    { id: 'C', text: 'Try to make them jealous 😈', deltas: { ind: 10, mh: -15, rel: -20, str: 20 }, feedback: 'Petty tactics backfire, damaging friendships and generating regret.' },
+                    { id: 'D', text: 'Accept it and focus on yourself 🧘', deltas: { mh: 15, ind: 20, str: -15, rel: 5 }, feedback: 'Acceptance fosters maturity, resilience, and personal growth.' }
+                ]
+            },
+            {
+                age: 16,
+                levelTitle: 'LEVEL 5: "I\'M NOT A CHILD!"',
+                description: 'Your parents set a strict 9 PM curfew on weekends, but your friends party till midnight. What do you do?',
+                knowledge: 'Autonomy seeking is a core developmental milestone, balanced by ongoing family connectivity.',
+                options: [
+                    { id: 'A', text: 'Sneak out 😈', deltas: { ind: 30, mh: 10, rel: -30, str: 20 }, feedback: 'Full rebel move! You taste extreme freedom, but destroy family trust.' },
+                    { id: 'B', text: 'Stay home and accept it 😐', deltas: { rel: 20, str: -15, ind: -20, mh: 5 }, feedback: 'Keeping the peace at home avoids drama, though independence feels stifled.' },
+                    { id: 'C', text: 'Negotiate with your parents 🤝', deltas: { ind: 20, rel: 20, str: 5, mh: 10 }, feedback: 'Mature compromise proves you are growing up and earns real respect.' },
+                    { id: 'D', text: 'Lie about where you\'re going 💀', deltas: { ind: 25, mh: -10, rel: -25, str: 25 }, feedback: 'Dishonesty creates constant fear of getting caught and strains family bonds.' }
+                ]
+            },
+            {
+                age: 17,
+                levelTitle: 'LEVEL 6: "MY FUTURE"',
+                description: 'Parents want you to study Medicine/Law, but your passion lies in Creative Design or Technology. What path do you take?',
+                knowledge: 'Adolescence is an important period for developing identity, values, goals, and independence.',
+                options: [
+                    { id: 'A', text: 'Follow your parents 👨‍👩‍👦', deltas: { rel: 25, str: 15, ind: -20, mh: -5 }, feedback: 'Pleasing parents provides safety, but sacrifices personal ambition and autonomy.' },
+                    { id: 'B', text: 'Ignore everyone and do whatever you want 🔥', deltas: { ind: 30, rel: -25, str: 15, mh: 5 }, feedback: 'Wild independence! You follow your own path, though family friction is intense.' },
+                    { id: 'C', text: 'Discuss your goals and find a compromise 🤝', deltas: { rel: 20, ind: 20, mh: 15, str: -10 }, feedback: 'Balanced dialogue aligns personal passion with family support!' },
+                    { id: 'D', text: 'Avoid thinking about it 😴', deltas: { str: 25, mh: -15, ind: -10, rel: 0 }, feedback: 'Procrastination offers short relief, but looming future anxiety builds up fast.' }
+                ]
+            }
+        ];
+
+        /* ------------------------------------------------------------------
+           3. GAME STATE MANAGEMENT & TURN MECHANICS
+           ------------------------------------------------------------------ */
+        let currentAgeIndex = 0;
+        let currentTurnStep = 'RED'; // 'RED' -> 'BLUE' -> 'CONSEQUENCE'
+
+        // Team State Objects
+        let teamRed = {
+            name: 'TEAM RED',
+            mh: 50,
+            rel: 50,
+            ind: 50,
+            str: 30,
+            selectedChoice: null
+        };
+
+        let teamBlue = {
+            name: 'TEAM BLUE',
+            mh: 50,
+            rel: 50,
+            ind: 50,
+            str: 30,
+            selectedChoice: null
+        };
+
+        function startGame() {
+            playSoundFx('click');
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('scoreboardSection').classList.remove('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+            document.getElementById('gameplayScreen').classList.add('flex');
+
+            currentAgeIndex = 0;
+            currentTurnStep = 'RED';
+            loadCurrentAgeTurn();
+        }
+
+        function loadCurrentAgeTurn() {
+            const currentLevel = ageLevels[currentAgeIndex];
+
+            // Update Header Tags
+            document.getElementById('ageTag').innerText = `AGE ${currentLevel.age}`;
+            document.getElementById('levelTitle').innerText = currentLevel.levelTitle;
+            document.getElementById('scenarioDescription').innerText = currentLevel.description;
+
+            // Render Turn Banner State
+            const turnBanner = document.getElementById('turnBanner');
+            const cardRed = document.getElementById('cardTeamRed');
+            const cardBlue = document.getElementById('cardTeamBlue');
+            const badgeRed = document.getElementById('badgeTurnRed');
+            const badgeBlue = document.getElementById('badgeTurnBlue');
+
+            if (currentTurnStep === 'RED') {
+                turnBanner.className = 'pulse-banner rounded-xl p-4 text-center border-2 bg-red-950/80 border-red-500 glow-red';
+                document.getElementById('turnEmoji').innerText = '🔴';
+                document.getElementById('turnText').innerText = "🔴 TEAM RED'S TURN (IMPULSIVE)";
+                document.getElementById('turnText').className = "font-pixel text-sm sm:text-lg text-red-400 tracking-wider";
+                document.getElementById('turnSubtext').innerText = "Team Red select your response card!";
+
+                cardRed.classList.add('glow-red', 'scale-[1.02]');
+                cardBlue.classList.remove('glow-blue', 'scale-[1.02]');
+                badgeRed.classList.remove('hidden');
+                badgeBlue.classList.add('hidden');
+            } else if (currentTurnStep === 'BLUE') {
+                turnBanner.className = 'pulse-banner rounded-xl p-4 text-center border-2 bg-blue-950/80 border-blue-500 glow-blue';
+                document.getElementById('turnEmoji').innerText = '🔵';
+                document.getElementById('turnText').innerText = "🔵 TEAM BLUE'S TURN (RATIONAL)";
+                document.getElementById('turnText').className = "font-pixel text-sm sm:text-lg text-blue-400 tracking-wider";
+                document.getElementById('turnSubtext').innerText = "Team Blue select your response card!";
+
+                cardBlue.classList.add('glow-blue', 'scale-[1.02]');
+                cardRed.classList.remove('glow-red', 'scale-[1.02]');
+                badgeBlue.classList.remove('hidden');
+                badgeRed.classList.add('hidden');
+            }
+
+            // Render Options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            currentLevel.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn text-left p-4 rounded-xl font-medium text-slate-200 text-sm flex flex-col justify-between gap-3';
+                btn.onclick = () => handleChoiceSelect(opt);
+
+                btn.innerHTML = `
+                    <div class="font-bold text-slate-100 flex items-start gap-2">
+                        <span class="text-cyan-400 font-pixel text-xs bg-slate-800 px-2 py-0.5 rounded border border-slate-700">${opt.id}</span>
+                        <span>${opt.text}</span>
+                    </div>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            updateScoreboard();
+        }
+
+        function handleChoiceSelect(optionObj) {
+            playSoundFx('click');
+
+            if (currentTurnStep === 'RED') {
+                teamRed.selectedChoice = optionObj;
+                applyDeltas(teamRed, optionObj.deltas);
+                
+                // Transition to Blue Turn
+                currentTurnStep = 'BLUE';
+                playSoundFx('turn');
+                loadCurrentAgeTurn();
+            } else if (currentTurnStep === 'BLUE') {
+                teamBlue.selectedChoice = optionObj;
+                applyDeltas(teamBlue, optionObj.deltas);
+
+                // Transition to Consequence Screen
+                showConsequenceScreen();
+            }
+        }
+
+        function applyDeltas(team, deltas) {
+            if (deltas.mh) team.mh = clamp(team.mh + deltas.mh, 0, 100);
+            if (deltas.rel) team.rel = clamp(team.rel + deltas.rel, 0, 100);
+            if (deltas.ind) team.ind = clamp(team.ind + deltas.ind, 0, 100);
+            if (deltas.str) team.str = clamp(team.str + deltas.str, 0, 100);
+        }
+
+        function clamp(val, min, max) {
+            return Math.min(Math.max(val, min), max);
+        }
+
+        function updateScoreboard() {
+            // Team Red UI
+            document.getElementById('redStatMH').innerText = teamRed.mh;
+            document.getElementById('redBarMH').style.width = `${teamRed.mh}%`;
+
+            document.getElementById('redStatREL').innerText = teamRed.rel;
+            document.getElementById('redBarREL').style.width = `${teamRed.rel}%`;
+
+            document.getElementById('redStatIND').innerText = teamRed.ind;
+            document.getElementById('redBarIND').style.width = `${teamRed.ind}%`;
+
+            document.getElementById('redStatSTR').innerText = teamRed.str;
+            document.getElementById('redBarSTR').style.width = `${teamRed.str}%`;
+
+            // Team Blue UI
+            document.getElementById('blueStatMH').innerText = teamBlue.mh;
+            document.getElementById('blueBarMH').style.width = `${teamBlue.mh}%`;
+
+            document.getElementById('blueStatREL').innerText = teamBlue.rel;
+            document.getElementById('blueBarREL').style.width = `${teamBlue.rel}%`;
+
+            document.getElementById('blueStatIND').innerText = teamBlue.ind;
+            document.getElementById('blueBarIND').style.width = `${teamBlue.ind}%`;
+
+            document.getElementById('blueStatSTR').innerText = teamBlue.str;
+            document.getElementById('blueBarSTR').style.width = `${teamBlue.str}%`;
+        }
+
+        function showConsequenceScreen() {
+            playSoundFx('good');
+            document.getElementById('gameplayScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('flex');
+            
+            document.getElementById('consequenceScreen').classList.remove('hidden');
+            document.getElementById('consequenceScreen').classList.add('flex');
+
+            const currentLevel = ageLevels[currentAgeIndex];
+            document.getElementById('consequenceAgeTitle').innerText = `AGE ${currentLevel.age} RESULTS`;
+
+            // Red Feedback
+            document.getElementById('redChoiceText').innerText = `Option ${teamRed.selectedChoice.id}: ${teamRed.selectedChoice.text}`;
+            document.getElementById('redFeedbackText').innerText = teamRed.selectedChoice.feedback;
+            renderDeltaBadges('redDeltasContainer', teamRed.selectedChoice.deltas);
+
+            // Blue Feedback
+            document.getElementById('blueChoiceText').innerText = `Option ${teamBlue.selectedChoice.id}: ${teamBlue.selectedChoice.text}`;
+            document.getElementById('blueFeedbackText').innerText = teamBlue.selectedChoice.feedback;
+            renderDeltaBadges('blueDeltasContainer', teamBlue.selectedChoice.deltas);
+
+            // Takeaway
+            document.getElementById('knowledgeTakeawayText').innerText = `"${currentLevel.knowledge}"`;
+
+            updateScoreboard();
+        }
+
+        function renderDeltaBadges(containerId, deltas) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            const statMap = [
+                { key: 'mh', label: '🧠 Mental', icon: '🧠' },
+                { key: 'rel', label: '👥 Relations', icon: '👥' },
+                { key: 'ind', label: '🕊️ Indep.', icon: '🕊️' },
+                { key: 'str', label: '⚡ Stress', icon: '⚡' }
+            ];
+
+            statMap.forEach(item => {
+                if (deltas[item.key] !== undefined && deltas[item.key] !== 0) {
+                    const val = deltas[item.key];
+                    const isPositive = val > 0;
+                    // Note: for Stress, positive is bad, negative is good
+                    const isGood = item.key === 'str' ? !isPositive : isPositive;
+                    
+                    const span = document.createElement('span');
+                    span.className = `px-2 py-1 rounded text-xs font-mono font-bold border ${
+                        isGood 
+                            ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50' 
+                            : 'bg-rose-950 text-rose-300 border-rose-500/50'
+                    }`;
+                    span.innerText = `${item.label} ${isPositive ? '+' : ''}${val}`;
+                    container.appendChild(span);
+                }
+            });
+        }
+
+        function nextAge() {
+            playSoundFx('click');
+            currentAgeIndex++;
+
+            if (currentAgeIndex < ageLevels.length) {
+                // Next Age Level
+                currentTurnStep = 'RED';
+                document.getElementById('consequenceScreen').classList.add('hidden');
+                document.getElementById('consequenceScreen').classList.remove('flex');
+
+                document.getElementById('gameplayScreen').classList.remove('hidden');
+                document.getElementById('gameplayScreen').classList.add('flex');
+
+                loadCurrentAgeTurn();
+            } else {
+                // Game Endings Trigger
+                showFinalEndings();
+            }
+        }
+
+        function showFinalEndings() {
+            playSoundFx('good');
+            document.getElementById('consequenceScreen').classList.add('hidden');
+            document.getElementById('consequenceScreen').classList.remove('flex');
+            document.getElementById('cardTeamRed').classList.remove('glow-red', 'scale-[1.02]');
+            document.getElementById('cardTeamBlue').classList.remove('glow-blue', 'scale-[1.02]');
+            document.getElementById('badgeTurnRed').classList.add('hidden');
+            document.getElementById('badgeTurnBlue').classList.add('hidden');
+
+            document.getElementById('endingSlide1').classList.remove('hidden');
+            document.getElementById('endingSlide1').classList.add('flex');
+
+            // Evaluate Personalities
+            const redResult = evaluatePersonality(teamRed);
+            const blueResult = evaluatePersonality(teamBlue);
+
+            // Populate Red
+            document.getElementById('redPersonalityBadge').innerText = redResult.title;
+            document.getElementById('redFinalMH').innerText = teamRed.mh;
+            document.getElementById('redFinalREL').innerText = teamRed.rel;
+            document.getElementById('redFinalIND').innerText = teamRed.ind;
+            document.getElementById('redFinalSTR').innerText = teamRed.str;
+            document.getElementById('redPersonalityDesc').innerText = redResult.desc;
+
+            // Populate Blue
+            document.getElementById('bluePersonalityBadge').innerText = blueResult.title;
+            document.getElementById('blueFinalMH').innerText = teamBlue.mh;
+            document.getElementById('blueFinalREL').innerText = teamBlue.rel;
+            document.getElementById('blueFinalIND').innerText = teamBlue.ind;
+            document.getElementById('blueFinalSTR').innerText = teamBlue.str;
+            document.getElementById('bluePersonalityDesc').innerText = blueResult.desc;
+        }
+
+        function evaluatePersonality(team) {
+            if (team.str >= 65 || (team.ind >= 70 && team.rel <= 35)) {
+                return {
+                    title: '🔥 THE CHAOTIC ONE',
+                    desc: 'High stress and intense independence left relationships fractured. A wild, unpredictable adolescent journey!'
+                };
+            } else if (team.ind >= 70) {
+                return {
+                    title: '🕊️ THE REBEL',
+                    desc: 'Fiercely independent and self-reliant. You broke boundaries and carved your own distinct path.'
+                };
+            } else if (team.rel >= 70) {
+                return {
+                    title: '❤️ THE PEOPLE PERSON',
+                    desc: 'Deeply connected with family and peers. You prioritized social harmony and strong personal relationships.'
+                };
+            } else if (team.mh <= 40 || team.str >= 55) {
+                return {
+                    title: '🧠 THE OVERTHINKER',
+                    desc: 'Carried heavy mental stress and doubt throughout the adolescent years, but persevered through the pressure.'
+                };
+            } else if (team.mh >= 55 && team.rel >= 55 && team.ind >= 55 && team.str <= 45) {
+                return {
+                    title: '🌟 THE BALANCED ONE',
+                    desc: 'Harmonious development across mental health, strong friendships, and autonomy without excessive stress!'
+                };
+            } else {
+                return {
+                    title: '🌱 THE ADAPTIVE GROWER',
+                    desc: 'A realistic, flexible teenager who learned through trial and error to prepare for young adulthood.'
+                };
+            }
+        }
+
+        function showSlide2() {
+            playSoundFx('click');
+            document.getElementById('endingSlide1').classList.add('hidden');
+            document.getElementById('endingSlide1').classList.remove('flex');
+
+            document.getElementById('endingSlide2').classList.remove('hidden');
+            document.getElementById('endingSlide2').classList.add('flex');
+        }
+
+        function showSlide3() {
+            playSoundFx('click');
+            document.getElementById('endingSlide2').classList.add('hidden');
+            document.getElementById('endingSlide2').classList.remove('flex');
+
+            document.getElementById('endingSlide3').classList.remove('hidden');
+            document.getElementById('endingSlide3').classList.add('flex');
+        }
+
+        function resetGame() {
+            playSoundFx('click');
+            teamRed = { name: 'TEAM RED', mh: 50, rel: 50, ind: 50, str: 30, selectedChoice: null };
+            teamBlue = { name: 'TEAM BLUE', mh: 50, rel: 50, ind: 50, str: 30, selectedChoice: null };
+            currentAgeIndex = 0;
+            currentTurnStep = 'RED';
+
+            document.getElementById('endingSlide3').classList.add('hidden');
+            document.getElementById('endingSlide3').classList.remove('flex');
+
+            document.getElementById('scoreboardSection').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
